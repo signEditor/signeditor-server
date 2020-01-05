@@ -1,0 +1,25 @@
+{
+  "name": "signeditor-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/signEditor/signeditor-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/signEditor/signeditor-server/issues"
+  },
+  "dependencies": {
+    "koa": "2.11.0",
+    "koa-router": "7.4.0",
+    "koa-body": "4.1.1",
+    "ajv": "6.10.2"
+  },
+  "homepage": "https://github.com/signEditor/signeditor-server#readme"
+}
