@@ -1,9 +1,15 @@
 const express = require('express');
 const app= express();
 const bodyParser = require('body-parser')
+
+const multer = require('multer')
+const mammoth = require('mammoth')
+
+let storage = multer.memoryStorage()
+let upload = multer({ storage: storage })
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({}))
-app.use(bodyParser.urlencoded({extended:true,limit: '50mb'}))
+app.use(bodyParser.urlencoded({extended:false,limit: '50mb'}))
 app.all('*', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -22,9 +28,9 @@ const userData = [{
 //根据用户id存储的用户word模板
 const wordTemplateData = {
     0: [{
-        id: 0,
-        title: '12',
-        content: '12456'
+        id: '0',
+        title: 'test',
+        content: 'test'
     }]
 }
 
@@ -42,6 +48,7 @@ app.post('/login', function(req, res) {
                     id: item.id
                 }
             })
+            return
         }
     })
     res.send({
@@ -76,7 +83,6 @@ app.post('/register', (req, res) => {
             passWd
         })
         wordTemplateData[len] = []
-        console.log(userData, wordTemplateData)
         //返回注册成功
         res.send({
             status: 200,
@@ -93,6 +99,7 @@ app.post('/register', (req, res) => {
 //获取用户的文档模板
 app.get('/getUserTemplate', (req, res) => {
     let userID = req.query.userID
+    //如果用户数据存在
     if(wordTemplateData[userID]) {
         res.send({
             status: 200,
@@ -105,7 +112,7 @@ app.get('/getUserTemplate', (req, res) => {
     } else {
         res.send({
             status: 200,
-            msg: '获取数据失败',
+            msg: '或许数据失败',
             code: '1111',
             data: {}
         })
@@ -125,18 +132,24 @@ app.get('/getUserWordInfo', (req, res) => {
                 data: wordTemplateData[userID][wordID]
             })
         } else {
+            let len = wordTemplateData[userID].length
+            wordTemplateData[userID].push({
+                id: len,
+                title: '',
+                content: ''
+            })
             res.send({
                 status: 200,
-                msg: '获取数据失败',
-                code: '1111',
-                data: ''
+                msg: '添加数据成功',
+                code: '0000',
+                data: wordTemplateData[userID][wordID]
             })
         }
     } else {
         res.send({
             status: 200,
             msg: '获取数据失败',
-            code: '1111',
+            code: '0000',
             data: ''
         })
     }
@@ -164,6 +177,23 @@ app.post('/saveUserWordInfo', (req, res) => {
             code: '1111'
         })
     }
+})
+
+
+app.post('/upLoadWord', upload.single("file"), (req, res) => {
+    let file = req.file
+    let title = file.originalname
+    mammoth.convertToHtml({buffer: file.buffer})
+    .then(result => {
+        res.send({
+            status: 200,
+            data: result,
+            title
+        })
+    })
+    .done(err => {
+        
+    });
 })
 
 app.listen(5000, ()=>{
