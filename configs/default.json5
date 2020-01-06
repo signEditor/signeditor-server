@@ -1,0 +1,6 @@
+{
+    jwt: {
+        secret: "testtesttest",
+        tokentime: 3600 //3600秒
+    }
+}
