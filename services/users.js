@@ -38,7 +38,7 @@ async function createUser(username, password){
     let existUser = await User.findOne({
         username
     })
-
+    
     if(existUser){
         throw new UserExistError()
     }
