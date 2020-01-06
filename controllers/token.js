@@ -19,7 +19,7 @@ const applyTokenRequestSchema = {
 const services = require("../services")
 
 
-exports.applyToken = function(ctx, next){
+exports.applyToken = async function(ctx, next){
     const body = ctx.request.body
     const data = {
         username: body.username,
@@ -28,7 +28,7 @@ exports.applyToken = function(ctx, next){
     
     if(!ctx.validate(applyTokenRequestSchema, data)) return
 
-    let token = services.token.applyToken(data.username, data.password)
+    let token = await services.token.applyToken(data.username, data.password)
 
     ctx.body = {
         token

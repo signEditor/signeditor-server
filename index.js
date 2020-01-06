@@ -9,4 +9,4 @@ app.use(require("./middlewares/validation")())
 app.use(require("koa-body")())
 require("./routers")(app)
 
-app.listen(3000);
+app.listen(3000)

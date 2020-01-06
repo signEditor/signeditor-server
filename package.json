@@ -21,7 +21,9 @@
     "koa-body": "4.1.1",
     "ajv": "6.10.2",
     "jsonwebtoken": "8.5.1",
-    "config": "3.2.4"
+    "config": "3.2.4",
+    "mongoose": "5.8.4",
+    "uuid": "3.3.3"
   },
   "homepage": "https://github.com/signEditor/signeditor-server#readme"
 }
